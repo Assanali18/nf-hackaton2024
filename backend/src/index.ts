@@ -15,9 +15,6 @@ app.use((req, res, next) => {
 
 
 const BASE_URL = 'http://localhost:3000';
-console.log("olzjas ");
-
-
 
 app.use(cors({
   origin: BASE_URL,
