@@ -20,7 +20,14 @@ async function AIFunction(link, nameOfList) {
     //update json
 
     const oldData = readJsonFile('output.json');
-    const promtData = await generateFullText(oldData);
+    oldData.forEach(async (el, i) => {
+        if(i == 1){
+            const promtData = await generateFullText(el);
+            console.log(promtData);
+            return
+        }
+    })
+    // const promtData = await generateFullText(oldData);
     
     // await saveDataToJsonFile(promtData)
 
