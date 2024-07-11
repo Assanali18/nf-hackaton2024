@@ -15,23 +15,65 @@ const openai = new OpenAI({
 
 async function generateFullText(data){
   const promptFullText = `
-  Imagine that you are a recruiter in an IT incubator. You need to carefully select candidates so that only those who are worthy proceed to the next stage. Evaluate the candidate's submitted data based on the following criteria:
 
-  Criteria and priorities for evaluation:
-  - IT Background (30%): Evaluate based on programming skills, past projects, and work experience.
-  - Motivation (40%): Assess the detailed description of programming experience, impressive achievements, and self-taught or course-based learning.
-  - Activity and Openness (15%): Review impressive achievements in different areas.
-  - Education (15%): Consider the school/university and specialization.
-  - Availability in Almaty (June 5 - August 9, 2024): If they are not available, immediately decide "No" without further evaluation.
+Imagine that you are a recruiter in an IT incubator, you need to carefully select so that only those who are worthy and who are not go to the next stage. Below I will describe by what criteria it is necessary to evaluate
+    Objective: To evaluate the candidate's submitted data in order to decide whether he should proceed to the next stage.Evaluate the big picture. Next, I'll tell you what criteria you can rely on
 
-  Please return a JSON object with the following keys:
-  - "decision": "Yes", "No", or "Uncertain"
-  - "reason": Detailed reasoning for the decision
+Criteria and priorities for evaluation:
 
-  Evaluate the following candidate based on their provided data:
+IT Background (30%): Evaluate based on programming skills and more on past projects, and work experience.
+Motivation (40%): Assess the detailed description of programming experience, impressive achievements and if he is self-taught or courses it is plus for motivation.
+Activity and Openness (15%): review impressive achievements on different areas .
+Education (15%): Consider the school/university by rating of organization and specialization.
+Sample Data:
 
-  ${JSON.stringify(data)}
-  `;
+Telegram profile(doesnt matter)
+Social media links(doesnt matter)
+GitHub link(check if they have any projects there)
+School/University attended(consider the rating of the organization)
+Specialization in university
+Work experience(if he is a student or a school student, work experience does not matter)
+Detailed description of programming experience
+Past programming projects
+Impressive achievements (programming, education, sports, etc.)
+Availability in Almaty (June 5 - August 9, 2024)(If they are not available, they should not proceed and immediately get a No decision without further evaluation)
+
+
+Desired Output:
+For each candidate, return:
+Example Format:
+Decision (Yes/No/Uncertain)
+Score (Percentage)
+Reasoning for the decision
+Decision	Score	Reasoning
+Yes if	more than 80%	Strong IT background, highly motivated, impressive achievements.
+No if	less than 50%	Limited IT experience, unclear motivation, and no confirmation of being in Almaty, a lot of empty or meaningless fields.
+Uncertain	between (50%-80%)	Good IT skills, but motivation and availability are unclear. Flagged for mentor review.
+
+also give detailed reasoning for each field and procent of each field. 
+
+
+
+The nFactorial Incubator is suitable for:
+
+Students, university graduates, and beginner programmers.
+High school students over 16 with basic programming knowledge.
+Graduates of nFactorial Web and nFactorial Web Intro.
+The program helps participants create a unique application to use as a portfolio for internships or jobs at top tech companies and for university applications. Technical requirements include a solid foundation in programming or knowledge equivalent to graduates of nFactorial Start or Web.
+
+Please evaluate the following candidates for an IT incubator  based on their provided data.
+Assess each candidate according to the specified criteria.
+Return only a decision of 'Yes', 'No', or 'Uncertain' along with the score and reasoning for your decision. 
+The evaluation should ensure candidates have a strong IT background, are motivated, active, open, and available in Almaty during 
+the incubator period.
+
+Example of evaluated candidate:
+
+
+Input:
+${data}
+
+`;
 
   try{
     const response = await openai.chat.completions.create({
