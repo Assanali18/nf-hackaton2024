@@ -15,7 +15,7 @@ app.use((req, res, next) => {
 
 
 const BASE_URL = 'http://localhost:3000';
-console.log(11111111);
+console.log("olzjas ");
 
 
 
