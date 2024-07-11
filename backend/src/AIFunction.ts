@@ -20,13 +20,14 @@ async function AIFunction(link, nameOfList) {
     //update json
 
     const oldData = readJsonFile('output.json');
-    oldData.forEach(async (el, i) => {
-        if(i == 1){
-            const promtData = await generateFullText(el);
-            console.log(promtData);
-            return
-        }
-    })
+    for (const row of oldData.slice(1)) {  // Skip the header row
+        const evaluation = await generateFullText(row);
+        row.push(evaluation.decision);
+        break  // Add decision and reason to each row
+    }
+
+    saveDataToJsonFile(oldData);
+    await updateSheetData(spreadsheetId, range, oldData);
     // const promtData = await generateFullText(oldData);
     
     // await saveDataToJsonFile(promtData)
